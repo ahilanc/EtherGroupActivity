@@ -8,14 +8,14 @@ Feature: Demo Bank site
     When user enter the accountNumber and invalid Password
     And Click the Login button
     Then User Should display the warning message when invalid password is given
-	
+  @web @DemoTest
   Scenario: To validate if user can navigate to home page with valid credentials
     When user enter the valid accountNumber and Password
     And Click the Login button
     And User navigate to account pin field
     When User enter the valid pin and click on validate button
     Then User should navigate to Home Page
-	
+  @web @DemoTest
   Scenario: To validate if user see the warning message when any of mandatory field is missing
     When user enter the valid accountNumber and Password
     And Click the Login button
@@ -24,7 +24,7 @@ Feature: Demo Bank site
     And User click on Fund Transfer Tab
     And User clicks the FundTransfer button
     Then User see the warning message when mandatory field is missing
-  @web @DemoTest
+
   Scenario Outline: To validate whether user see the successful transaction message and reference number generated
     When user enter the valid accountNumber and Password
     And Click the Login button

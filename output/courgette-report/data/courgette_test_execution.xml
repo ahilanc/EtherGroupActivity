@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<testsuite failures="0" name="Test Suite" skipped="0" tests="5" time="429.762">
+
+<testcase classname="Demo Bank site" name="To validate whether user see the successful transaction message and reference number generated" time="115.124">
+<system-out><![CDATA[Given User login into Demo Bank site........................................passed
+When user enter the valid accountNumber and Password........................passed
+And Click the Login button..................................................passed
+When User enter the valid pin and click on validate button..................passed
+Then User should navigate to Home Page......................................passed
+And User click on Fund Transfer Tab.........................................passed
+And User inputs the fields with rowQuery2 to complete the fund transfer.....passed
+And User clicks the FundTransfer button.....................................passed
+And user enter authentication code as 123456 and click validate button......passed
+Then User see success message and reference no will be generated............passed
+]]></system-out>
+</testcase>
+
+<testcase classname="Demo Bank site" name="To validate whether user see the successful transaction message and reference number generated" time="36.549">
+<system-out><![CDATA[Given User login into Demo Bank site........................................passed
+When user enter the valid accountNumber and Password........................passed
+And Click the Login button..................................................passed
+When User enter the valid pin and click on validate button..................passed
+Then User should navigate to Home Page......................................passed
+And User click on Fund Transfer Tab.........................................passed
+And User inputs the fields with rowQuery3 to complete the fund transfer.....passed
+And User clicks the FundTransfer button.....................................passed
+And user enter authentication code as 123456 and click validate button......passed
+Then User see success message and reference no will be generated............passed
+]]></system-out>
+</testcase>
+
+<testcase classname="Demo Bank site" name="To validate whether user see the successful transaction message and reference number generated" time="78.367">
+<system-out><![CDATA[Given User login into Demo Bank site........................................passed
+When user enter the valid accountNumber and Password........................passed
+And Click the Login button..................................................passed
+When User enter the valid pin and click on validate button..................passed
+Then User should navigate to Home Page......................................passed
+And User click on Fund Transfer Tab.........................................passed
+And User inputs the fields with rowQuery1 to complete the fund transfer.....passed
+And User clicks the FundTransfer button.....................................passed
+And user enter authentication code as 123456 and click validate button......passed
+Then User see success message and reference no will be generated............passed
+]]></system-out>
+</testcase>
+
+<testcase classname="Demo Bank site" name="To validate whether user see the successful transaction message and reference number generated" time="32.177">
+<system-out><![CDATA[Given User login into Demo Bank site........................................passed
+When user enter the valid accountNumber and Password........................passed
+And Click the Login button..................................................passed
+When User enter the valid pin and click on validate button..................passed
+Then User should navigate to Home Page......................................passed
+And User click on Fund Transfer Tab.........................................passed
+And User inputs the fields with rowQuery4 to complete the fund transfer.....passed
+And User clicks the FundTransfer button.....................................passed
+And user enter authentication code as 123456 and click validate button......passed
+Then User see success message and reference no will be generated............passed
+]]></system-out>
+</testcase>
+
+<testcase classname="Demo Bank site" name="To validate whether user see the successful transaction message and reference number generated" time="42.571">
+<system-out><![CDATA[Given User login into Demo Bank site........................................passed
+When user enter the valid accountNumber and Password........................passed
+And Click the Login button..................................................passed
+When User enter the valid pin and click on validate button..................passed
+Then User should navigate to Home Page......................................passed
+And User click on Fund Transfer Tab.........................................passed
+And User inputs the fields with rowQuery5 to complete the fund transfer.....passed
+And User clicks the FundTransfer button.....................................passed
+And user enter authentication code as 123456 and click validate button......passed
+Then User see success message and reference no will be generated............passed
+]]></system-out>
+</testcase>
+
+</testsuite>

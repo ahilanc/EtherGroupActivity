@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Courgette-JVM Report</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Plugin CSS -->
+    <link href="css/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/core.min.css" rel="stylesheet">
+
+</head>
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <li class="navbar-brand" href="#">Courgette-JVM Report</li>
+</nav>
+
+<div class="content-wrapper">
+
+    <div class="container-fluid">
+        <!-- Result Cards -->
+        <div class="row">
+            <div class="col-lg-3 col-sm-6 mb-3">
+                <div class="card text-white bg-primary o-hidden h-100">
+                    <div class="card-body">
+                        <div class="card-body-icon">
+                            <i class="fa fa-fw"></i>
+                        </div>
+                        <div class="mr-10">
+                            Total Scenarios
+                        </div>
+                    </div>
+                    <div class="card-footer text-white clearfix small z-1" style="cursor: pointer;"
+                         onclick="setSearch('');">
+                        <span class="float-left text-white" id="card-total">5</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 mb-3">
+                <div class="card text-white bg-success o-hidden h-100">
+                    <div class="card-body">
+                        <div class="card-body-icon">
+                            <i class="fa fa-fw"></i>
+                        </div>
+                        <div class="mr-10">
+                            Passed Scenarios
+                        </div>
+                    </div>
+                    <div class="card-footer text-white clearfix small z-1" style="cursor: pointer;"
+                         onclick="setSearch('Passed');">
+                        <span class="float-left text-white" id="card-passed">5</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 mb-3">
+                <div class="card text-white bg-danger o-hidden h-100">
+                    <div class="card-body">
+                        <div class="card-body-icon">
+                            <i class="fa fa-fw"></i>
+                        </div>
+                        <div class="mr-10">
+                            Failed Scenarios
+                        </div>
+                    </div>
+                    <div class="card-footer text-white clearfix small z-1" style="cursor: pointer;"
+                         onclick="setSearch('Failed');">
+                        <span class="float-left text-white" id="card-failed">0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 mb-3">
+                <div class="card text-white bg-warning o-hidden h-100">
+                    <div class="card-body">
+                        <div class="card-body-icon">
+                            <i class="fa fa-fw"></i>
+                        </div>
+                        <div class="mr-10">
+                            Re-run Scenarios
+                        </div>
+                    </div>
+                    <div class="card-footer text-white clearfix small z-1" style="cursor: pointer;"
+                    onclick="setSearch('Rerun');">
+                        <span class="float-left" id="card-rerun">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fa"></i>Run Information
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                Timestamp:
+                            </div>
+                            <div>2020-10-10T05:49:24.880Z</div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-3">
+                                Duration:
+                            </div>
+                            <div>8 min, 45 sec</div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-3">
+                                Parallel Threads:
+                            </div>
+                            <div>1</div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-3">
+                                Parallel Run Level:
+                            </div>
+                            <div>Scenario</div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-3">
+                                Rerun Failed:
+                            </div>
+                            <div>false</div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-3">
+                                Cucumber Tags:
+                            </div>
+                            <div>@web, @DemoTest</div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-3">
+                                Cucumber Features:
+                            </div>
+                            <div>src/test/resources/features</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="mt-3 mb-3">
+                        <canvas id="pieChart" width="100%" height="321"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Table -->
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fa fa-table"></i>
+                Results
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th width="95%">Scenario Name</th>
+                            <th>Result</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                                    <td>
+                                        <a href="" data-toggle="modal" data-target="#f09bf217-ea78-4613-ad09-4cbb39c3bbf5">To validate whether user see the successful transaction message and reference number generated</a>
+                                    </td>
+                                    <td>
+                                        <span class="float-left badge badge-success">Passed</span>
+                                    </td>
+                                </tr>
+<tr>
+                                    <td>
+                                        <a href="" data-toggle="modal" data-target="#42eef71d-1ba3-4465-985f-e8ef5c970dd1">To validate whether user see the successful transaction message and reference number generated</a>
+                                    </td>
+                                    <td>
+                                        <span class="float-left badge badge-success">Passed</span>
+                                    </td>
+                                </tr>
+<tr>
+                                    <td>
+                                        <a href="" data-toggle="modal" data-target="#a2ee1dd1-cf72-4fd1-80a4-49155f1096c6">To validate whether user see the successful transaction message and reference number generated</a>
+                                    </td>
+                                    <td>
+                                        <span class="float-left badge badge-success">Passed</span>
+                                    </td>
+                                </tr>
+<tr>
+                                    <td>
+                                        <a href="" data-toggle="modal" data-target="#8c540409-b7d6-46fb-bfb9-f34f3aafdbaa">To validate whether user see the successful transaction message and reference number generated</a>
+                                    </td>
+                                    <td>
+                                        <span class="float-left badge badge-success">Passed</span>
+                                    </td>
+                                </tr>
+<tr>
+                                    <td>
+                                        <a href="" data-toggle="modal" data-target="#afc86e2a-314b-4762-80ad-d4ea1dc5cbe3">To validate whether user see the successful transaction message and reference number generated</a>
+                                    </td>
+                                    <td>
+                                        <span class="float-left badge badge-success">Passed</span>
+                                    </td>
+                                </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+    <!-- Modals -->
+    <div class="modal fade" id="c85fe3d8-85d6-428b-a80a-87a6aea99371" tabindex="-1" role="dialog" aria-labelledby="c85fe3d8-85d6-428b-a80a-87a6aea99371" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header text-white bg-dark">
+<span class="modal-title"><h5></h5>
+<div class="font-italic text-muted">DemoBank.feature - line 4</div></span>
+<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Given User login into Demo Bank site
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">3747 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/69015a7d-45b6-49e0-84b4-b5ca9f2bc42c.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Given User login into Demo Bank site
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">3747 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/093e265a-1030-4dc5-9618-ec0339d10c6d.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="f09bf217-ea78-4613-ad09-4cbb39c3bbf5" tabindex="-1" role="dialog" aria-labelledby="f09bf217-ea78-4613-ad09-4cbb39c3bbf5" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header text-white bg-dark">
+<span class="modal-title"><h5>To validate whether user see the successful transaction message and reference number generated</h5>
+<div class="font-italic text-muted">DemoBank.feature - line 42</div></span>
+<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+stepDefinitions.Hooks.beforeScenario(Scenario) in file:/E:/Automation%20Pack/CucumberDemo_Ether/target/test-classes/
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">0 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Given User login into Demo Bank site
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">3747 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/b9ea748c-ac5a-44cd-a51f-2df046f5f1a8.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+When user enter the valid accountNumber and Password
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">1490 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/906246a7-ea9d-4db6-b4d0-cf2b7afa03ea.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And Click the Login button
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">1160 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/b21f2642-4db7-47fb-9ca4-5d34e4b2deb6.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+When User enter the valid pin and click on validate button
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">9018 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/cfaa9702-857c-451b-bcb3-043d743ec43a.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Then User should navigate to Home Page
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">548 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/8edf1720-4d34-4d27-a184-ac69b3bbaeae.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And User click on Fund Transfer Tab
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">1265 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/9a53fa1e-314d-4daf-a7f9-ca7d6009d1bd.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And User inputs the fields with rowQuery2 to complete the fund transfer
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">24679 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/e7e0676f-a053-4275-9e64-33f24cca4774.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And User clicks the FundTransfer button
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">4963 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/0e5e3484-47ab-42d1-9608-91d923f159da.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And user enter authentication code as 123456 and click validate button
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">1129 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/7d107cb1-9356-40b8-9490-0e597d71416a.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Then User see success message and reference no will be generated
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">635 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/8ecb8ea5-b441-4bb2-bff1-4284289411c6.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+stepDefinitions.Hooks.afterScenario(Scenario) in file:/E:/Automation%20Pack/CucumberDemo_Ether/target/test-classes/
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">66283 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<hr>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="a9bab75e-ce80-470b-9e65-bf222e120eb1" tabindex="-1" role="dialog" aria-labelledby="a9bab75e-ce80-470b-9e65-bf222e120eb1" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header text-white bg-dark">
+<span class="modal-title"><h5></h5>
+<div class="font-italic text-muted">DemoBank.feature - line 4</div></span>
+<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Given User login into Demo Bank site
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">4548 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/a7eae89e-8a0a-4760-9ffa-676f1201aed8.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Given User login into Demo Bank site
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">4548 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/cc47f09c-d20d-4d2b-8846-148fa68e18d6.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="42eef71d-1ba3-4465-985f-e8ef5c970dd1" tabindex="-1" role="dialog" aria-labelledby="42eef71d-1ba3-4465-985f-e8ef5c970dd1" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header text-white bg-dark">
+<span class="modal-title"><h5>To validate whether user see the successful transaction message and reference number generated</h5>
+<div class="font-italic text-muted">DemoBank.feature - line 43</div></span>
+<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+stepDefinitions.Hooks.beforeScenario(Scenario) in file:/E:/Automation%20Pack/CucumberDemo_Ether/target/test-classes/
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">0 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Given User login into Demo Bank site
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">4548 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/330db6c7-86fc-4018-b270-1a455ec0de5d.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+When user enter the valid accountNumber and Password
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">857 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/945e1ab3-3090-40a8-96ed-de7d25b48bbe.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And Click the Login button
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">997 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/5fe9b08f-4b88-4d32-be44-366718592a4b.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+When User enter the valid pin and click on validate button
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">5539 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/542d2f13-70f9-4301-b173-47440fbbb48c.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Then User should navigate to Home Page
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">506 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/78626c3a-cded-4357-a980-8a27a85cb765.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And User click on Fund Transfer Tab
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">546 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/d8be43a0-54de-442c-a12d-70826e191385.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And User inputs the fields with rowQuery3 to complete the fund transfer
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">8796 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/8515d29f-b915-4993-8dbb-358c43c19933.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And User clicks the FundTransfer button
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">1286 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/21697c3a-c0a0-4fa6-8579-a573a3a090e1.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And user enter authentication code as 123456 and click validate button
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">1898 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/23ad9365-b1f6-4676-81ee-5921cb0cd3d1.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Then User see success message and reference no will be generated
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">1025 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/705fe480-b135-4c8e-837f-a39b51d6a825.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+stepDefinitions.Hooks.afterScenario(Scenario) in file:/E:/Automation%20Pack/CucumberDemo_Ether/target/test-classes/
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">10451 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<hr>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="07337956-f430-4bc0-945a-cfb8bad9e67f" tabindex="-1" role="dialog" aria-labelledby="07337956-f430-4bc0-945a-cfb8bad9e67f" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header text-white bg-dark">
+<span class="modal-title"><h5></h5>
+<div class="font-italic text-muted">DemoBank.feature - line 4</div></span>
+<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Given User login into Demo Bank site
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">11839 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/0b8734bf-07ad-4b2d-a3d6-7d4d96727cf2.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Given User login into Demo Bank site
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">11839 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/c4ed3677-3ab1-40f3-a03d-b7a9c9d0e801.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="a2ee1dd1-cf72-4fd1-80a4-49155f1096c6" tabindex="-1" role="dialog" aria-labelledby="a2ee1dd1-cf72-4fd1-80a4-49155f1096c6" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header text-white bg-dark">
+<span class="modal-title"><h5>To validate whether user see the successful transaction message and reference number generated</h5>
+<div class="font-italic text-muted">DemoBank.feature - line 41</div></span>
+<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+stepDefinitions.Hooks.beforeScenario(Scenario) in file:/E:/Automation%20Pack/CucumberDemo_Ether/target/test-classes/
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">299 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Given User login into Demo Bank site
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">11839 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/dac2542d-ab6a-4a0b-b934-d3c12621b62c.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+When user enter the valid accountNumber and Password
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">6657 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/b49faaad-9b2f-4c1c-87d2-4e81ecd2e677.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And Click the Login button
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">2525 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/31c3c951-53b6-4caf-b195-f99d89e1fe6a.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+When User enter the valid pin and click on validate button
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">12543 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/2ccb63b3-0170-46d0-b609-bc3b19947a74.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Then User should navigate to Home Page
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">1030 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/9727dc00-0d99-4f93-bab5-383b1789849d.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And User click on Fund Transfer Tab
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">1100 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/10e94fdd-3857-4238-93ab-14238fc5037b.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And User inputs the fields with rowQuery1 to complete the fund transfer
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">21144 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/42584c1f-54b7-4d5b-af6a-8ec624f98a4b.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And User clicks the FundTransfer button
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">2305 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/c0ab2c0f-214a-4a99-9791-eeccb55972a9.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And user enter authentication code as 123456 and click validate button
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">1013 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/8cbe8b93-8de9-4895-8572-c2984963b866.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Then User see success message and reference no will be generated
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">581 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/3e4cb7e6-5cb0-472a-ba14-2066ba37695e.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+stepDefinitions.Hooks.afterScenario(Scenario) in file:/E:/Automation%20Pack/CucumberDemo_Ether/target/test-classes/
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">14332 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<hr>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="49e3350c-1c91-46e6-8f88-d6f0251cee0a" tabindex="-1" role="dialog" aria-labelledby="49e3350c-1c91-46e6-8f88-d6f0251cee0a" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header text-white bg-dark">
+<span class="modal-title"><h5></h5>
+<div class="font-italic text-muted">DemoBank.feature - line 4</div></span>
+<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Given User login into Demo Bank site
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">2832 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/7db16c11-206d-4eed-881c-2bc9d0254eff.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Given User login into Demo Bank site
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">2832 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/aa38e827-38c4-4dae-9667-82271d314e9c.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="8c540409-b7d6-46fb-bfb9-f34f3aafdbaa" tabindex="-1" role="dialog" aria-labelledby="8c540409-b7d6-46fb-bfb9-f34f3aafdbaa" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header text-white bg-dark">
+<span class="modal-title"><h5>To validate whether user see the successful transaction message and reference number generated</h5>
+<div class="font-italic text-muted">DemoBank.feature - line 44</div></span>
+<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+stepDefinitions.Hooks.beforeScenario(Scenario) in file:/E:/Automation%20Pack/CucumberDemo_Ether/target/test-classes/
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">16 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Given User login into Demo Bank site
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">2832 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/bee79d00-b5fb-44d7-abeb-1c978d2780a5.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+When user enter the valid accountNumber and Password
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">8428 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/f37e3391-8655-4a70-b158-23fbc33d4af7.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And Click the Login button
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">1939 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/682fdd64-d396-488f-8185-1352152482a5.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+When User enter the valid pin and click on validate button
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">2748 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/da9767f2-3dbf-4d2d-9829-2f8b7d30b270.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Then User should navigate to Home Page
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">730 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/5ff36ac7-ac63-4137-a446-0f3a1bcae313.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And User click on Fund Transfer Tab
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">685 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/453cb3b5-82e8-4497-810f-10cf499af199.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And User inputs the fields with rowQuery4 to complete the fund transfer
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">8228 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/a0c9b6d9-f4c7-4360-96e7-3d5c3500fb3e.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And User clicks the FundTransfer button
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">2619 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/28e618bc-7949-4bc2-aca5-210bab81ce51.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And user enter authentication code as 123456 and click validate button
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">1209 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/291b56ff-cf4a-4ea0-8413-b35a31d461b2.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Then User see success message and reference no will be generated
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">661 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/c1056a04-a2ee-4f49-a851-71600441cb56.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+stepDefinitions.Hooks.afterScenario(Scenario) in file:/E:/Automation%20Pack/CucumberDemo_Ether/target/test-classes/
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">1969 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<hr>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="d4207d09-1272-4e20-bb92-f7a3e3ec2219" tabindex="-1" role="dialog" aria-labelledby="d4207d09-1272-4e20-bb92-f7a3e3ec2219" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header text-white bg-dark">
+<span class="modal-title"><h5></h5>
+<div class="font-italic text-muted">DemoBank.feature - line 4</div></span>
+<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Given User login into Demo Bank site
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">11665 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/f7f6b485-566d-4a37-87b9-f7a56b9fccc1.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Given User login into Demo Bank site
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">11665 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/d57ee58d-c0ed-4108-8bd7-97914c3bfad6.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="afc86e2a-314b-4762-80ad-d4ea1dc5cbe3" tabindex="-1" role="dialog" aria-labelledby="afc86e2a-314b-4762-80ad-d4ea1dc5cbe3" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header text-white bg-dark">
+<span class="modal-title"><h5>To validate whether user see the successful transaction message and reference number generated</h5>
+<div class="font-italic text-muted">DemoBank.feature - line 45</div></span>
+<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+stepDefinitions.Hooks.beforeScenario(Scenario) in file:/E:/Automation%20Pack/CucumberDemo_Ether/target/test-classes/
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">48 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Given User login into Demo Bank site
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">11665 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/3672d32c-be13-4edc-b0ea-056f8acdf733.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+When user enter the valid accountNumber and Password
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">1848 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/0e7173e2-7fda-4305-8fec-78e28a69fe90.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And Click the Login button
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">1614 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/90540d4a-a3b3-4cf2-b9b2-05a1c0c7c989.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+When User enter the valid pin and click on validate button
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">4542 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/0f7a9f5d-6293-41b1-b193-98da9425246b.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Then User should navigate to Home Page
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">963 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/e69dbaf2-b804-4a28-a558-aae514a516af.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And User click on Fund Transfer Tab
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">680 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/b6e62827-2f01-44da-9e5f-b82f1a375cb8.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And User inputs the fields with rowQuery5 to complete the fund transfer
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">10421 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/72a69bea-85da-44f4-ad81-a6bfabb6a2b6.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And User clicks the FundTransfer button
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">1502 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/ef468322-95e4-4ecb-be11-01e69c05f551.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+And user enter authentication code as 123456 and click validate button
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">1473 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/7217650f-8a91-448f-9ad1-7497ecf8644f.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+Then User see success message and reference no will be generated
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">817 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<div class="row mt-2">
+<div class="col-lg-12">
+<img src="images/20a84ed8-e1d3-4806-a525-9b39545aa83a.png" class="img-thumbnail">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-lg-9" style="overflow-wrap:break-word;">
+stepDefinitions.Hooks.afterScenario(Scenario) in file:/E:/Automation%20Pack/CucumberDemo_Ether/target/test-classes/
+</div>
+<div class="col-lg-3">
+<span class="float-right">
+<span class="badge badge-info">6601 ms</span>
+<span class="badge badge-success">Passed</span>
+</span>
+</div>
+</div>
+<hr>
+</div>
+</div>
+</div>
+</div>
+
+
+</div>
+<!-- /.content-wrapper -->
+
+<!-- Bootstrap core JavaScript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="js/jquery.easing.min.js"></script>
+<script src="js/jquery.dataTables.js"></script>
+<script src="js/dataTables.bootstrap4.js"></script>
+
+<!-- Custom scripts for this template -->
+<script src="js/core.min.js"></script>
+<script src="js/mdb.js"></script>
+<script src="js/Chart.min.js"></script>
+
+<script>
+    var passed = $('#card-passed').text();
+    var failed = $('#card-failed').text();
+    var rerun = $('#card-rerun').text();
+
+    var ctxP = document.getElementById("pieChart").getContext('2d');
+    var pieChart = new Chart(ctxP, {
+        type: 'pie',
+        data: {
+            labels: ["Passed", "Failed", "Re-run"],
+            datasets: [{
+                data: [passed, failed, rerun],
+                backgroundColor: ["#28a745", "#dc3545", "#ffbb33"]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+</script>
+
+<script>
+    function setSearch(criteria) {
+        var search = "\"" + criteria + "\"";
+        if (criteria.length < 2) {
+            search = ''
+        }
+        $("input[type='search']").val(search).trigger($.Event("keyup", {keyCode: 13}));
+    }
+</script>
+
+</body>
+
+</html>
